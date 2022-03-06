@@ -59,6 +59,18 @@ public class CustomerAccount  {
 		this.transactionList = transactionList;
 	}
 	
-	
+	public void addLodgement(Component f, double lodgementAmount) {
+		String euro = "\u20ac";
+		balance += lodgementAmount;
+		Date transactionDate = new Date();
+
+		AccountTransaction transaction = new AccountTransaction(transactionDate.toString(), "Lodgement", balance);
+		transactionList.add(transaction);
+
+		JOptionPane.showMessageDialog(f, balance + euro + " added do you account!", "Lodgement",
+				JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(f, "New balance = " + balance + euro,
+				"Lodgement", JOptionPane.INFORMATION_MESSAGE);
+	}
 	
 }
