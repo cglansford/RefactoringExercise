@@ -1380,32 +1380,19 @@ public class Menu extends JFrame {
 																														// entered
 																														// was
 																														// numeric.
-								if (isNumeric(balanceTest)) {
+								if (isNumeric(requiredLodgment)) {
 
-									balance = Double.parseDouble(balanceTest);
-									loop = false;
+									lodgementAmount = Double.parseDouble(requiredLodgment);
+									
 
 								} else {
 									JOptionPane.showMessageDialog(f, "You must enter a numerical value!", "Oops!",
 											JOptionPane.INFORMATION_MESSAGE);
 								}
-
-								String euro = "\u20ac";
-								acc.setBalance(acc.getBalance() + balance);
-								// String date = new
-								// SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime());
-								Date date = new Date();
-								String date2 = date.toString();
-								String type = "Lodgement";
-								double amount = balance;
-
-								AccountTransaction transaction = new AccountTransaction(date2, type, amount);
-								acc.getTransactionList().add(transaction);
-
-								JOptionPane.showMessageDialog(f, balance + euro + " added do you account!", "Lodgement",
-										JOptionPane.INFORMATION_MESSAGE);
-								JOptionPane.showMessageDialog(f, "New balance = " + acc.getBalance() + euro,
-										"Lodgement", JOptionPane.INFORMATION_MESSAGE);
+								
+								
+								acc.addLodgement(f, lodgementAmount);
+								
 							}
 							else
 								customer(e);
