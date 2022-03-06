@@ -73,4 +73,18 @@ public class CustomerAccount  {
 				"Lodgement", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
+	public void addWithdraw(Component f, double withdrawAmount) {
+		String euro = "\u20ac";
+		balance -= withdrawAmount;
+		Date transactionDate = new Date();
+
+		AccountTransaction transaction = new AccountTransaction(transactionDate.toString(), "Withdraw", withdrawAmount);
+		transactionList.add(transaction);
+
+		JOptionPane.showMessageDialog(f, withdrawAmount + euro + " withdrawn.", "Withdraw",
+				JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(f, "New balance = " + balance + euro, "Withdraw",
+				JOptionPane.INFORMATION_MESSAGE);
+	}
+	
 }
