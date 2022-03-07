@@ -1,66 +1,66 @@
 public class AccountTransaction {
 
-	String date;
-	String type;
-	double amount;
+	String transactionDate;
+	String transactionType;
+	double transactionAmount;
 	
 	//Blank constructor
 	public AccountTransaction()
 	{
-		this.date = "";
-		this.type = "";	
-		this.amount = 0;
+		this.transactionDate = "";
+		this.transactionType = "";	
+		this.transactionAmount = 0;
 		
 	}
 	
 	//Constructor with details
-	public AccountTransaction(String date, String type, double amount)
+	public AccountTransaction(String transactionDate, String transactionType, double transactionAmount)
 	{
-		this.date = date;
-		this.type = type;
+		this.transactionDate = transactionDate;
+		this.transactionType = transactionType;
 		
 		
-		this.amount = amount;
+		this.transactionAmount = transactionAmount;
 		
 	}
 	
 	//Accessor methods
-	public String getDate()
+	public String getTransactionDate()
 	{
-		return this.date;
+		return this.transactionDate;
 	}
 	
-	public String getType()
+	public String getTransactionType()
 	{
-		return this.type;
+		return this.transactionType;
 	}
 
-	public double getAmount()
+	public double getTransactionAmount()
 	{
-		return this.amount;
+		return this.transactionAmount;
 	}
 
 	//mutator methods
-	public void setDate(String date)
+	public void setTransactionDate(String date)
 	{
-		this.date = date;
+		this.transactionDate = date;
 	}
 	
-	public void setType(String type)
+	public void setTransactionType(String type)
 	{
-		this.type = type;
+		this.transactionType = type;
 	}
 	
-	public void setAmount(double amount)
+	public void setTransactionAmount(double amount)
 	{
-		this.amount = amount;
+		this.transactionAmount = amount;
 	}
 	
 	public String toString()
 	{
-		return  "\n" + "Date = " + this.date + "\n"
-				+ "Type = " + this.type + "\n"
-				+ "Amount = " + this.amount + "\n";
+		return  "\n" + "Date = " + this.transactionDate + "\n"
+				+ "Type = " + this.transactionType + "\n"
+				+ "Amount = " + this.transactionAmount + "\n";
 			
 	}
 	
