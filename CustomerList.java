@@ -7,7 +7,21 @@ public class CustomerList {
 	public CustomerList() {
 		this.customerList = new ArrayList<Customer>();
 	}
+	
+	
+	public boolean isEmpty() {
+		return customerList.isEmpty();
+	}
 
+	public Customer findByID(String customerID) {
+		for (Customer aCustomer : customerList) {
+
+			if (aCustomer.getCustomerID().equals(customerID)) {
+				return aCustomer;
+			}
+		}
+		return null;
+	}
 	public ArrayList<Customer> getCustomerList() {
 		return customerList;
 	}
