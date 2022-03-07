@@ -412,9 +412,9 @@ public class Menu extends JFrame {
 							f.setVisible(true);
 
 							JComboBox<String> box = new JComboBox<String>();
-							for (int i = 0; i < editCustomer.getAccounts().size(); i++) {
+							for (int i = 0; i < aCustomer.getAccounts().size(); i++) {
 
-								box.addItem(editCustomer.getAccounts().get(i).getNumber());
+								box.addItem(aCustomer.getAccounts().get(i).getNumber());
 							}
 
 							box.getSelectedItem();
@@ -433,7 +433,7 @@ public class Menu extends JFrame {
 							content.add(boxPanel);
 							content.add(buttonPanel);
 
-							if (editCustomer.getAccounts().isEmpty()) {
+							if (aCustomer.getAccounts().isEmpty()) {
 								JOptionPane.showMessageDialog(f,
 										"This customer has no accounts! \n The admin must add acounts to this customer.",
 										"Oops!", JOptionPane.INFORMATION_MESSAGE);
@@ -441,9 +441,9 @@ public class Menu extends JFrame {
 								admin();
 							} else {
 
-								for (int i = 0; i < editCustomer.getAccounts().size(); i++) {
-									if (editCustomer.getAccounts().get(i).getNumber() == box.getSelectedItem()) {
-										acc = editCustomer.getAccounts().get(i);
+								for (int i = 0; i < aCustomer.getAccounts().size(); i++) {
+									if (aCustomer.getAccounts().get(i).getNumber() == box.getSelectedItem()) {
+										acc = aCustomer.getAccounts().get(i);
 									}
 								}
 
@@ -516,6 +516,7 @@ public class Menu extends JFrame {
 								admin();
 							}
 						} else {
+							foundUser=true;
 							f.dispose();
 							f = new JFrame("Administrator Menu");
 							f.setSize(400, 300);
@@ -528,9 +529,9 @@ public class Menu extends JFrame {
 							f.setVisible(true);
 
 							JComboBox<String> box = new JComboBox<String>();
-							for (int i = 0; i < editCustomer.getAccounts().size(); i++) {
+							for (int i = 0; i < aCustomer.getAccounts().size(); i++) {
 
-								box.addItem(editCustomer.getAccounts().get(i).getNumber());
+								box.addItem(aCustomer.getAccounts().get(i).getNumber());
 							}
 
 							box.getSelectedItem();
@@ -551,7 +552,7 @@ public class Menu extends JFrame {
 							content.add(boxPanel);
 							content.add(buttonPanel);
 
-							if (editCustomer.getAccounts().isEmpty()) {
+							if (aCustomer.getAccounts().isEmpty()) {
 								JOptionPane.showMessageDialog(f,
 										"This customer has no accounts! \n The admin must add acounts to this customer.",
 										"Oops!", JOptionPane.INFORMATION_MESSAGE);
@@ -559,9 +560,9 @@ public class Menu extends JFrame {
 								admin();
 							} else {
 
-								for (int i = 0; i < editCustomer.getAccounts().size(); i++) {
-									if (editCustomer.getAccounts().get(i).getNumber() == box.getSelectedItem()) {
-										acc = editCustomer.getAccounts().get(i);
+								for (int i = 0; i < aCustomer.getAccounts().size(); i++) {
+									if (aCustomer.getAccounts().get(i).getNumber() == box.getSelectedItem()) {
+										acc = aCustomer.getAccounts().get(i);
 									}
 								}
 
@@ -852,12 +853,7 @@ public class Menu extends JFrame {
 					last = new JButton("Last");
 					cancel = new JButton("Cancel");
 
-					firstNameTextField.setText(customerList.getCustomerList().get(0).getFirstName());
-					surnameTextField.setText(customerList.getCustomerList().get(0).getSurname());
-					pPSTextField.setText(customerList.getCustomerList().get(0).getPPS());
-					dOBTextField.setText(customerList.getCustomerList().get(0).getDOB());
-					customerIDTextField.setText(customerList.getCustomerList().get(0).getCustomerID());
-					passwordTextField.setText(customerList.getCustomerList().get(0).getPassword());
+					displayUserInfo(0);
 
 					firstNameTextField.setEditable(false);
 					surnameTextField.setEditable(false);
@@ -955,27 +951,22 @@ public class Menu extends JFrame {
 					f.dispose();
 					admin();
 				} else {
-					boolean lookingForUser = true;
+					boolean foundUser = true;
 
-					while (lookingForUser) {
+					while (foundUser) {
 						Object customerID = JOptionPane.showInputDialog(f,
 								"Customer ID of Customer You Wish to Add an Account to:");
 
 						Customer aCustomer = customerList.findByID(customerID.toString());
 
 						if (aCustomer == null) {
-							int reply = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?",
-									JOptionPane.YES_NO_OPTION);
-							if (reply == JOptionPane.YES_OPTION) {
-								lookingForUser = true;
-							} else if (reply == JOptionPane.NO_OPTION) {
+							foundUser = keepLookingForUser();
+							if (foundUser == false) {
 								f.dispose();
-								lookingForUser = false;
-
 								admin();
 							}
 						} else {
-							lookingForUser = false;
+							foundUser = false;
 							// a combo box in an dialog box that asks the admin what type of account they
 							// wish to create (deposit/current)
 							String[] accountChoices = { "Current Account", "Deposit Account" };
@@ -997,7 +988,7 @@ public class Menu extends JFrame {
 								CustomerCurrentAccount aCustomerCurrentAccount = new CustomerCurrentAccount(aATMCard, customerAccNumber, accountBalance,
 										transactionList);
 
-								editCustomer.getAccounts().add(aCustomerCurrentAccount);
+								aCustomer.getAccounts().add(aCustomerCurrentAccount);
 								JOptionPane.showMessageDialog(f, "Account number = " + customerAccNumber + "\n PIN = " + String.valueOf(randomPIN),
 										"Account created.", JOptionPane.INFORMATION_MESSAGE);
 
@@ -1009,15 +1000,15 @@ public class Menu extends JFrame {
 								// create deposit account
 
 								double balance = 0, interest = 0;
-								String number = String.valueOf("D" + (customerList.getCustomerList().indexOf(editCustomer) + 1) * 10
-										+ (editCustomer.getAccounts().size() + 1));// this simple algorithm generates the
+								String number = String.valueOf("D" + (customerList.getCustomerList().indexOf(aCustomer) + 1) * 10
+										+ (aCustomer.getAccounts().size() + 1));// this simple algorithm generates the
 																				// account number
 								ArrayList<AccountTransaction> transactionList = new ArrayList<AccountTransaction>();
 
 								CustomerDepositAccount deposit = new CustomerDepositAccount(interest, number, balance,
 										transactionList);
 
-								editCustomer.getAccounts().add(deposit);
+								aCustomer.getAccounts().add(deposit);
 								JOptionPane.showMessageDialog(f, "Account number = " + number, "Account created.",
 										JOptionPane.INFORMATION_MESSAGE);
 
@@ -1040,29 +1031,25 @@ public class Menu extends JFrame {
 					admin();
 				} else {
 					{
+						boolean foundUser;
 						Object customerID = JOptionPane.showInputDialog(f,
 								"Customer ID of Customer You Wish to Add an Account to:");
 
 						Customer aCustomer = customerList.findByID(customerID.toString());
 
 						if (aCustomer == null) {
-							int reply = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?",
-									JOptionPane.YES_NO_OPTION);
-							if (reply == JOptionPane.YES_OPTION) {
-								
-							} else if (reply == JOptionPane.NO_OPTION) {
+							foundUser = keepLookingForUser();
+							if (foundUser == false) {
 								f.dispose();
-								
-
 								admin();
 							}
 						} else {
-							if (editCustomer.getAccounts().size() > 0) {
+							if (aCustomer.getAccounts().size() > 0) {
 								JOptionPane.showMessageDialog(f,
 										"This customer has accounts. \n You must delete a customer's accounts before deleting a customer ",
 										"Oops!", JOptionPane.INFORMATION_MESSAGE);
 							} else {
-								customerList.getCustomerList().remove(editCustomer);
+								customerList.getCustomerList().remove(aCustomer);
 								JOptionPane.showMessageDialog(f, "Customer Deleted ", "Success.",
 										JOptionPane.INFORMATION_MESSAGE);
 							}
@@ -1077,20 +1064,16 @@ public class Menu extends JFrame {
 			public void actionPerformed(ActionEvent ae) {
 			
 				{
+					boolean foundUser;
 					Object customerID = JOptionPane.showInputDialog(f,
 							"Customer ID of Customer You Wish to Add an Account to:");
 
 					Customer aCustomer = customerList.findByID(customerID.toString());
 
 					if (aCustomer == null) {
-						int reply = JOptionPane.showConfirmDialog(null, null, "User not found. Try again?",
-								JOptionPane.YES_NO_OPTION);
-						if (reply == JOptionPane.YES_OPTION) {
-							
-						} else if (reply == JOptionPane.NO_OPTION) {
+						foundUser = keepLookingForUser();
+						if (foundUser == false) {
 							f.dispose();
-							
-
 							admin();
 						}
 					} else {
