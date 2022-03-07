@@ -1,70 +1,95 @@
+
+import java.awt.Component;
 import java.util.ArrayList;
+import java.util.Date;
 
-public class CustomerCurrentAccount extends CustomerAccount 
-{
-	ATMCard atm;
-	
-public CustomerCurrentAccount()
-{
-	super();
-	this.atm = null;
-	
-}
+import javax.swing.JOptionPane; 
 
-public CustomerCurrentAccount(ATMCard atm, String number, double balance, ArrayList<AccountTransaction> transactionList)
-{
-	super(number, balance, transactionList);	
-	this.atm = atm;
-}
+public class CustomerAccount  {
+   
+	String accountNumber;
+	double accountBalance;
+	ArrayList<AccountTransaction> transactionList = new ArrayList<AccountTransaction>();
 
-public boolean atmLogin(Component f) {
-	
-	int pinAttempts = 3;
-	boolean correctPin = true;
-	boolean loop = true;
-
-	while (loop) {
-		
-		if (pinAttempts == 0) {
-			JOptionPane.showMessageDialog(f,
-					"Pin entered incorrectly 3 times. ATM card locked.", "Pin",
-					JOptionPane.INFORMATION_MESSAGE);
-			atm.setValid(false);
-			
-			loop = false;
-			return false;
-		}
-
-		String Pin = JOptionPane.showInputDialog(f, "Enter 4 digit PIN;");
-		int i = Integer.parseInt(Pin);
-
-		if (correctPin) {
-			if (atm.getPin() == i) {
-				loop = false;
-				JOptionPane.showMessageDialog(f, "Pin entry successful", "Pin",
-						JOptionPane.INFORMATION_MESSAGE);
-
-			} else {
-				pinAttempts--;
-				JOptionPane.showMessageDialog(f,
-						"Incorrect pin. " + pinAttempts + " attempts remaining. pin is" + atm.getPin() , "Pin",
-						JOptionPane.INFORMATION_MESSAGE);
-			}
-
-		}
+	//Blank Constructor
+	public CustomerAccount()
+	{
+		this.accountNumber = "";
+		this.accountBalance = 0;
+		this.transactionList = null;
 	}
 	
-	return true;
-}
+	//Constructor with Details
+	public CustomerAccount(String accountNumber, double accountBalance, ArrayList<AccountTransaction> transactionList)
+	{
+		this.accountNumber = accountNumber;
+		this.accountBalance = accountBalance;
+		this.transactionList = transactionList;
+	}
+	
+	//Accessor methods
+	
+	public String getNumber()
+	{
+		return this.accountNumber;
+	}
+	
+	
 
-public ATMCard getAtm()
-{
-	return this.atm;
-}
+	
+	public double getBalance()
+	{
+		return this.accountBalance;
+	}
+	
+	public ArrayList getTransactionList()
+	{
+		return this.transactionList;
+	}
 
-public void setAtm(ATMCard atm)
-{
-	this.atm = atm;
-}
+	//Mutator methods
+	public void setNumber(String number)
+	{
+		this.accountNumber = number;
+	}
+	
+	public void setBalance(double balance)
+	{
+		this.accountBalance = balance;
+	}
+	
+	public void setTransactionList(ArrayList transactionList)
+	{
+		this.transactionList = transactionList;
+	}
+	
+	public void addLodgement(Component f, double lodgementAmount) {
+		String euro = "\u20ac";
+		accountBalance += lodgementAmount;
+		Date transactionDate = new Date();
 
+		AccountTransaction transaction = new AccountTransaction(transactionDate.toString(), "Lodgement", accountBalance);
+		transactionList.add(transaction);
+
+		JOptionPane.showMessageDialog(f, accountBalance + euro + " added do you account!", "Lodgement",
+				JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(f, "New balance = " + accountBalance + euro,
+				"Lodgement", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public void addWithdraw(Component f, double withdrawAmount) {
+		String euro = "\u20ac";
+		accountBalance -= withdrawAmount;
+		Date transactionDate = new Date();
+
+		AccountTransaction transaction = new AccountTransaction(transactionDate.toString(), "Withdraw", withdrawAmount);
+		transactionList.add(transaction);
+
+		JOptionPane.showMessageDialog(f, withdrawAmount + euro + " withdrawn.", "Withdraw",
+				JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(f, "New balance = " + accountBalance + euro, "Withdraw",
+				JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	
 }
