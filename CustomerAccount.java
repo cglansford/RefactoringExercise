@@ -1,25 +1,29 @@
 
-import java.util.ArrayList; 
+import java.awt.Component;
+import java.util.ArrayList;
+import java.util.Date;
+
+import javax.swing.JOptionPane; 
 
 public class CustomerAccount  {
    
-	String number;
-	double balance;
+	String accountNumber;
+	double accountBalance;
 	ArrayList<AccountTransaction> transactionList = new ArrayList<AccountTransaction>();
 
 	//Blank Constructor
 	public CustomerAccount()
 	{
-		this.number = "";
-		this.balance = 0;
+		this.accountNumber = "";
+		this.accountBalance = 0;
 		this.transactionList = null;
 	}
 	
 	//Constructor with Details
-	public CustomerAccount(String number, double balance, ArrayList<AccountTransaction> transactionList)
+	public CustomerAccount(String accountNumber, double accountBalance, ArrayList<AccountTransaction> transactionList)
 	{
-		this.number = number;
-		this.balance = balance;
+		this.accountNumber = accountNumber;
+		this.accountBalance = accountBalance;
 		this.transactionList = transactionList;
 	}
 	
@@ -27,7 +31,7 @@ public class CustomerAccount  {
 	
 	public String getNumber()
 	{
-		return this.number;
+		return this.accountNumber;
 	}
 	
 	
@@ -35,7 +39,7 @@ public class CustomerAccount  {
 	
 	public double getBalance()
 	{
-		return this.balance;
+		return this.accountBalance;
 	}
 	
 	public ArrayList getTransactionList()
@@ -46,12 +50,12 @@ public class CustomerAccount  {
 	//Mutator methods
 	public void setNumber(String number)
 	{
-		this.number = number;
+		this.accountNumber = number;
 	}
 	
 	public void setBalance(double balance)
 	{
-		this.balance = balance;
+		this.accountBalance = balance;
 	}
 	
 	public void setTransactionList(ArrayList transactionList)
@@ -61,21 +65,21 @@ public class CustomerAccount  {
 	
 	public void addLodgement(Component f, double lodgementAmount) {
 		String euro = "\u20ac";
-		balance += lodgementAmount;
+		accountBalance += lodgementAmount;
 		Date transactionDate = new Date();
 
-		AccountTransaction transaction = new AccountTransaction(transactionDate.toString(), "Lodgement", balance);
+		AccountTransaction transaction = new AccountTransaction(transactionDate.toString(), "Lodgement", accountBalance);
 		transactionList.add(transaction);
 
-		JOptionPane.showMessageDialog(f, balance + euro + " added do you account!", "Lodgement",
+		JOptionPane.showMessageDialog(f, accountBalance + euro + " added do you account!", "Lodgement",
 				JOptionPane.INFORMATION_MESSAGE);
-		JOptionPane.showMessageDialog(f, "New balance = " + balance + euro,
+		JOptionPane.showMessageDialog(f, "New balance = " + accountBalance + euro,
 				"Lodgement", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	public void addWithdraw(Component f, double withdrawAmount) {
 		String euro = "\u20ac";
-		balance -= withdrawAmount;
+		accountBalance -= withdrawAmount;
 		Date transactionDate = new Date();
 
 		AccountTransaction transaction = new AccountTransaction(transactionDate.toString(), "Withdraw", withdrawAmount);
@@ -83,8 +87,9 @@ public class CustomerAccount  {
 
 		JOptionPane.showMessageDialog(f, withdrawAmount + euro + " withdrawn.", "Withdraw",
 				JOptionPane.INFORMATION_MESSAGE);
-		JOptionPane.showMessageDialog(f, "New balance = " + balance + euro, "Withdraw",
+		JOptionPane.showMessageDialog(f, "New balance = " + accountBalance + euro, "Withdraw",
 				JOptionPane.INFORMATION_MESSAGE);
 	}
+	
 	
 }
